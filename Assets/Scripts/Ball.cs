@@ -69,7 +69,7 @@ public class Ball : MonoBehaviour
             Vector2 newDirection = Vector2.Reflect(rb.velocity.normalized, normal);
 
             // Apply new velocity
-            rb.velocity = newDirection * ((speed * (speed / 2)) * -1);
+            rb.velocity = newDirection * ((speed * speed) * -1);
         }
     }
 

@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
         score[1] = 0;
         roundOverUI.SetActive(false);
         UpdateUI();
+        DontDestroyOnLoad(gameObject);
     }
 
     private void UpdateUI()

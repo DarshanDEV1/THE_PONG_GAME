@@ -19,6 +19,7 @@ public class GameDataManager : MonoBehaviour
     //This is test implementation has to be remmoved and json has to be used.
     private void Start()
     {
+        percent = 90.00;
         m_message.text = player_name + " Won With " + percent.ToString("F2") + " % ";
 
         m_Restart.onClick.RemoveAllListeners();
