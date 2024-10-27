@@ -164,4 +164,10 @@ public class DOTweenUIManager : MonoBehaviour
                .OnUpdate(() => action?.Invoke(originValue, false))
                .OnComplete(() => action?.Invoke(originValue, true));
     }
+
+    // 22. Scale object by vector
+    public void ScaleValue(Transform targetObject, Vector3 targetScale, float duration)
+    {
+        targetObject.DOScale(targetScale, duration);
+    }
 }

@@ -14,6 +14,8 @@ public class Ball : MonoBehaviour
     private float upperBoundary = 6f;
     private float lowerBoundary = -6f;
 
+    internal bool m_Game_Running = true;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -35,13 +37,16 @@ public class Ball : MonoBehaviour
         }
     }
 
-    private void ResetBall()
+    internal void ResetBall()
     {
         // Reset position and velocity
         rb.velocity = Vector2.zero;
 
-        // Relaunch the ball after a delay
-        Invoke(nameof(LaunchBall), respawnDelay);
+        if (m_Game_Running)
+        {
+            // Relaunch the ball after a delay
+            Invoke(nameof(LaunchBall), respawnDelay);
+        }
     }
 
     private void LaunchBall()

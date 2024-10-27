@@ -7,7 +7,6 @@ public abstract class PlayerBase : MonoBehaviour, IPlayerActions
     public event Action OnPowerUpActivated;
     public event Action OnPowerDeactivated;
 
-    private int lives = 3;
     private float health = 100f;
     private bool powerUpActive = false;
     private const float healthLossPerHit = 25f;
@@ -15,7 +14,6 @@ public abstract class PlayerBase : MonoBehaviour, IPlayerActions
     protected virtual void Start()
     {
         health = 100f;
-        lives = 3;
         powerUpActive = false;
     }
 
@@ -25,9 +23,7 @@ public abstract class PlayerBase : MonoBehaviour, IPlayerActions
 
         if (health <= 0)
         {
-            lives--;
             OnLifeLost?.Invoke();
-            ResetHealth();
         }
 
         CheckPowerUpActivation();
@@ -40,7 +36,7 @@ public abstract class PlayerBase : MonoBehaviour, IPlayerActions
 
     public void ActivatePowerUp()
     {
-        if (!powerUpActive && (health <= 25 || (lives == 1 && health <= 50)))
+        if (!powerUpActive && (health <= 25))
         {
             powerUpActive = true;
             OnPowerUpActivated?.Invoke();
@@ -56,7 +52,7 @@ public abstract class PlayerBase : MonoBehaviour, IPlayerActions
 
     private void CheckPowerUpActivation()
     {
-        if (!powerUpActive && (health <= 25 || (lives == 1 && health <= 50)))
+        if (!powerUpActive && (health <= 25))
         {
             ActivatePowerUp();
         }
@@ -68,6 +64,5 @@ public abstract class PlayerBase : MonoBehaviour, IPlayerActions
 
     protected abstract void HandlePowerUp(bool m_powerup);
 
-    internal int GetLives() => lives;
     internal float GetHealth() => health;
 }
