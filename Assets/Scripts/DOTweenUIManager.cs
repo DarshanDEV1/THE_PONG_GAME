@@ -1,9 +1,10 @@
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
-using TMPro; // For TextMeshPro support
+using TMPro;
+using System; // For TextMeshPro support
 
-public class DOTweenUIManager
+public class DOTweenUIManager : MonoBehaviour
 {
     // Singleton for easy access (optional)
     public static DOTweenUIManager Instance;
@@ -153,5 +154,14 @@ public class DOTweenUIManager
     public void ChangeColor(Image uiElement, Color targetColor, float duration)
     {
         uiElement.DOColor(targetColor, duration);
+    }
+
+    // 21. Tween any value
+    public void TweenFloatValue(float originValue, float targetValue, float duration, Action<float, bool> action)
+    {
+        // Tween the value
+        DOTween.To(() => originValue, x => originValue = x, targetValue, duration)
+               .OnUpdate(() => action?.Invoke(originValue, false))
+               .OnComplete(() => action?.Invoke(originValue, true));
     }
 }

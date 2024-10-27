@@ -5,6 +5,7 @@ public abstract class PlayerBase : MonoBehaviour, IPlayerActions
 {
     public event Action OnLifeLost;
     public event Action OnPowerUpActivated;
+    public event Action OnPowerDeactivated;
 
     private int lives = 3;
     private float health = 100f;
@@ -43,8 +44,14 @@ public abstract class PlayerBase : MonoBehaviour, IPlayerActions
         {
             powerUpActive = true;
             OnPowerUpActivated?.Invoke();
-            HandlePowerUp();
+            HandlePowerUp(true);
         }
+    }
+
+    public void DeactivatePowerUp()
+    {
+        powerUpActive = false;
+        HandlePowerUp(false);
     }
 
     private void CheckPowerUpActivation()
@@ -53,9 +60,13 @@ public abstract class PlayerBase : MonoBehaviour, IPlayerActions
         {
             ActivatePowerUp();
         }
+        else
+        {
+            DeactivatePowerUp();
+        }
     }
 
-    protected abstract void HandlePowerUp();
+    protected abstract void HandlePowerUp(bool m_powerup);
 
     internal int GetLives() => lives;
     internal float GetHealth() => health;

@@ -16,9 +16,10 @@ public class Player : PlayerBase
         base.Start();
         playerRigidbody = GetComponent<Rigidbody2D>();
         originalMaterial = playerRigidbody.sharedMaterial;
-        powerUpMaterial = new PhysicsMaterial2D("PowerUpMaterial") { bounciness = 1.5f };
+        powerUpMaterial = new PhysicsMaterial2D("PowerUpMaterial") { bounciness = 2f };
 
         OnPowerUpActivated += ActivatePowerUp;
+        OnPowerDeactivated += DeactivatePowerUp;
     }
 
     private void Update()
@@ -53,10 +54,20 @@ public class Player : PlayerBase
         transform.position = position;
     }
 
-    protected override void HandlePowerUp()
+    protected override void HandlePowerUp(bool m_powerup)
     {
-        playerRigidbody.sharedMaterial = powerUpMaterial;
-        Debug.Log($"{gameObject.name} activated power-up: Increased bounciness!");
+        if (m_powerup)
+        {
+            playerRigidbody.sharedMaterial = powerUpMaterial;
+            playerRigidbody.GetComponent<BoxCollider2D>().sharedMaterial = powerUpMaterial;
+            Debug.Log($"{gameObject.name} activated power-up: Increased bounciness!");
+        }
+        else
+        {
+            playerRigidbody.sharedMaterial = originalMaterial;
+            playerRigidbody.GetComponent<BoxCollider2D>().sharedMaterial = originalMaterial;
+            Debug.Log($"{gameObject.name} activated power-up: Increased bounciness!");
+        }
     }
 
     private void OnDisable()

@@ -38,7 +38,6 @@ public class Ball : MonoBehaviour
     private void ResetBall()
     {
         // Reset position and velocity
-        transform.position = initialPosition;
         rb.velocity = Vector2.zero;
 
         // Relaunch the ball after a delay
@@ -47,6 +46,7 @@ public class Ball : MonoBehaviour
 
     private void LaunchBall()
     {
+        transform.position = initialPosition;
         // Choose a random angle for the initial launch direction
         float randomAngle = UnityEngine.Random.Range(-45f, 45f);
         Vector2 direction = Quaternion.Euler(0, 0, randomAngle) * (UnityEngine.Random.Range(0, 2) == 0 ? Vector2.left : Vector2.right);
@@ -64,7 +64,7 @@ public class Ball : MonoBehaviour
             Vector2 newDirection = Vector2.Reflect(rb.velocity.normalized, normal);
 
             // Apply new velocity
-            rb.velocity = newDirection * ((speed * speed) * -1);
+            rb.velocity = newDirection * ((speed * (speed / 2)) * -1);
         }
     }
 
@@ -73,11 +73,13 @@ public class Ball : MonoBehaviour
         if (collision.CompareTag("Player1Goal"))
         {
             Debug.Log("Player 1");
+            transform.GetChild(0).GetComponent<ParticleSystem>().Play();
             OnScore?.Invoke("Player1");
             ResetBall();
         }
         else if (collision.CompareTag("Player2Goal"))
         {
+            transform.GetChild(0).GetComponent<ParticleSystem>().Play();
             Debug.Log("Player 2");
             OnScore?.Invoke("Player2");
             ResetBall();

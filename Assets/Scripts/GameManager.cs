@@ -7,7 +7,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Player player2;
     [SerializeField] private Ball ball;
     [SerializeField] private TMP_Text player1HealthText;
+    [SerializeField] private Image player1FillerBar;
     [SerializeField] private TMP_Text player2HealthText;
+    [SerializeField] private Image player2FillerBar;
     [SerializeField] private TMP_Text livesText;
     [SerializeField] private GameObject gameOverUI;
 
@@ -33,7 +35,11 @@ public class GameManager : MonoBehaviour
     private void UpdateUI()
     {
         player1HealthText.text = $"P1 Health: {player1.GetHealth()}%";
+        //player1FillerBar.fillAmount = player1.GetHealth() / 100;
+        DOTweenUIManager.Instance.TweenFloatValue(player1FillerBar.fillAmount, player1.GetHealth() / 100, 2f, delegate (float x, bool y) { if (!y) { player1FillerBar.fillAmount = x; } });
         player2HealthText.text = $"P2 Health: {player2.GetHealth()}%";
+        //player2FillerBar.fillAmount = player2.GetHealth() / 100;
+        DOTweenUIManager.Instance.TweenFloatValue(player2FillerBar.fillAmount, player2.GetHealth() / 100, 2f, delegate (float x, bool y) { if (!y) { player2FillerBar.fillAmount = x; } });
         livesText.text = $"Lives: P1 - {player1.GetLives()} | P2 - {player2.GetLives()}";
     }
 
